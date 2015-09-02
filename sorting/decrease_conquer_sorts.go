@@ -7,10 +7,14 @@ func InsertionSort(input []int, delegate SortDelegate) {
 		j := i - 1
 		for j >= 0 && input[j] > v {
 			input[j+1] = input[j]
+			delegate.Set(j+1, input[j])
+
 			j--
 			delegate.InnerStep(input)
 		}
 		input[j+1] = v
+		delegate.Set(j+1, v)
+
 		delegate.Step(input)
 	}
 }
@@ -27,10 +31,14 @@ func ShellSort(input []int, delegate SortDelegate) {
 			j := i - gap
 			for j >= 0 && input[j] > v {
 				input[j+gap] = input[j]
+				delegate.Set(j+gap, input[j])
+
 				j -= gap
 				delegate.InnerStep(input)
 			}
 			input[j+gap] = v
+			delegate.Set(j+gap, v)
+
 			delegate.Step(input)
 		}
 	}

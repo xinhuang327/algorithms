@@ -14,7 +14,9 @@ func SelectionSort(input []int, delegate SortDelegate) {
 			}
 			delegate.InnerStep(input)
 		}
+		delegate.Swap(input, i, minIdx)
 		common.SwapSlice(input, i, minIdx)
+
 		delegate.Step(input)
 	}
 }
@@ -24,6 +26,7 @@ func BubbleSort(input []int, delegate SortDelegate) {
 	for i := 0; i < count-1; i++ {
 		for j := 0; j < count-i-1; j++ {
 			if input[j] > input[j+1] {
+				delegate.Swap(input, j, j+1)
 				common.SwapSlice(input, j, j+1)
 			}
 			delegate.InnerStep(input)

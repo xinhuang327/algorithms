@@ -10,6 +10,8 @@ type SortDelegate interface {
 	Step(current []int)
 	InnerStep(current []int)
 	Finish(finished []int)
+	Set(idx int, val int)
+	Swap(slice []int, i, j int)
 }
 
 type SortFunc func(input []int, delegate SortDelegate)
@@ -24,6 +26,10 @@ func (p *NullSortDelegate) Step(current []int) {
 func (p *NullSortDelegate) InnerStep(current []int) {
 }
 func (p *NullSortDelegate) Finish(finished []int) {
+}
+func (p *NullSortDelegate) Set(idx int, val int) {
+}
+func (p *NullSortDelegate) Swap(slice []int, i, j int) {
 }
 
 type PrintSortDelegate struct {
@@ -66,6 +72,11 @@ func (p *PrintSortDelegate) Finish(finished []int) {
 	}
 	elapsed := time.Since(p.StartTime)
 	fmt.Println("Elapsed: ", elapsed)
+}
+
+func (p *PrintSortDelegate) Set(idx int, val int) {
+}
+func (p *PrintSortDelegate) Swap(slice []int, i, j int) {
 }
 
 func ExecuteSort(sort SortFunc, input []int, delegate SortDelegate) []int {
