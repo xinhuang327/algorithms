@@ -5,6 +5,7 @@ func InsertionSort(input []int, delegate SortDelegate) {
 	for i := 1; i < count; i++ {
 		v := input[i]
 		j := i - 1
+		delegate.Mark(i)
 		for j >= 0 && input[j] > v {
 			input[j+1] = input[j]
 			delegate.Set(j+1, input[j])
@@ -29,6 +30,7 @@ func ShellSort(input []int, delegate SortDelegate) {
 		for i := gap; i < count; i++ {
 			v := input[i]
 			j := i - gap
+			delegate.Mark(i)
 			for j >= 0 && input[j] > v {
 				input[j+gap] = input[j]
 				delegate.Set(j+gap, input[j])

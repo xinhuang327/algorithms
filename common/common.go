@@ -44,6 +44,9 @@ func ReverseSliceRange(slice []int, a, b int) {
 }
 
 func SwapSlice(slice []int, i, j int) {
+	if i == j {
+		return
+	}
 	t := slice[i]
 	slice[i] = slice[j]
 	slice[j] = t

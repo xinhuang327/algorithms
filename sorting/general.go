@@ -12,6 +12,7 @@ type SortDelegate interface {
 	Finish(finished []int)
 	Set(idx int, val int)
 	Swap(slice []int, i, j int)
+	Mark(idx int)
 }
 
 type SortFunc func(input []int, delegate SortDelegate)
@@ -30,6 +31,8 @@ func (p *NullSortDelegate) Finish(finished []int) {
 func (p *NullSortDelegate) Set(idx int, val int) {
 }
 func (p *NullSortDelegate) Swap(slice []int, i, j int) {
+}
+func (p *NullSortDelegate) Mark(idx int) {
 }
 
 type PrintSortDelegate struct {
@@ -66,6 +69,7 @@ func (p *PrintSortDelegate) Finish(finished []int) {
 			fmt.Println(finished)
 		}
 	} else {
+		fmt.Println("Sorted.")
 		if p.ReportInputOutput {
 			fmt.Println("Finish: ", finished)
 		}
@@ -77,6 +81,8 @@ func (p *PrintSortDelegate) Finish(finished []int) {
 func (p *PrintSortDelegate) Set(idx int, val int) {
 }
 func (p *PrintSortDelegate) Swap(slice []int, i, j int) {
+}
+func (p *PrintSortDelegate) Mark(idx int) {
 }
 
 func ExecuteSort(sort SortFunc, input []int, delegate SortDelegate) []int {

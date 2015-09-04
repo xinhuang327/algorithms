@@ -14,21 +14,26 @@ import (
 
 var theDriver gxui.Driver
 var theme gxui.Theme
-var winW = 1500
-var winH = 600
-var numBars = 1400
+var winW = 1600
+var winH = 1000
+var numBars = 500
 var valNum = 10000
 
+var defaultBgBrush = gxui.CreateBrush(gxui.White)
+var markBgBrush = gxui.CreateBrush(gxui.Red)
+var setBgBrush = gxui.CreateBrush(gxui.Green)
+var swapABgBrush = gxui.CreateBrush(gxui.Blue)
+var swapBBgBrush = gxui.CreateBrush(gxui.Blue50)
 var bars []gxui.Button
 
 func createBar() gxui.Button {
 	child := theme.CreateButton()
-	child.SetBackgroundBrush(gxui.CreateBrush(gxui.White))
+	child.SetBackgroundBrush(defaultBgBrush)
 	w := winW / numBars
 	if w < 1 {
 		w = 1
-		child.SetBorderPen(gxui.TransparentPen)
 	}
+	child.SetBorderPen(gxui.TransparentPen)
 	child.SetPadding(math.Spacing{L: w, T: w})
 	child.SetMargin(math.ZeroSpacing)
 	return child
@@ -52,7 +57,7 @@ func appMain(driver gxui.Driver) {
 	window.SetScale(flags.DefaultScaleFactor)
 
 	layout := theme.CreateLinearLayout()
-	layout.SetBackgroundBrush(gxui.CreateBrush(gxui.Blue40))
+	layout.SetBackgroundBrush(gxui.CreateBrush(gxui.Black))
 	layout.SetDirection(gxui.LeftToRight)
 	layout.SetVerticalAlignment(gxui.AlignBottom)
 
@@ -76,7 +81,9 @@ func appMain(driver gxui.Driver) {
 		// sorting.ExecuteSort(sorting.InsertionSort, nums, delegate)
 		// sorting.ExecuteSort(sorting.BubbleSort, nums, delegate)
 		// sorting.ExecuteSort(sorting.SelectionSort, nums, delegate)
-		sorting.ExecuteSort(sorting.ShellSort, nums, delegate)
+		// sorting.ExecuteSort(sorting.ShellSort, nums, delegate)
+		sorting.ExecuteSort(sorting.MergeSort, nums, delegate)
+		// fmt.Println(result)
 	}()
 }
 
@@ -85,6 +92,19 @@ func main() {
 }
 
 type GUIDelegate struct {
+	lastMarkIdx  int
+	lastSetIdx   int
+	lastSwapIdxA int
+	lastSwapIdxB int
+}
+
+func NewGUIDelegate() *GUIDelegate {
+	return &GUIDelegate{
+		-1,
+		-1,
+		-1,
+		-1,
+	}
 }
 
 func (p *GUIDelegate) Init(input []int) {
@@ -98,6 +118,13 @@ func (p *GUIDelegate) Finish(finished []int) {
 func (p *GUIDelegate) Set(idx int, val int) {
 	theDriver.Call(func() {
 		setBarHeight(bars[idx], val)
+
+		if p.lastSetIdx >= 0 {
+			bars[p.lastSetIdx].SetBackgroundBrush(defaultBgBrush)
+		}
+
+		bars[idx].SetBackgroundBrush(setBgBrush)
+		p.lastSetIdx = idx
 	})
 	wait()
 }
@@ -107,10 +134,33 @@ func (p *GUIDelegate) Swap(slice []int, i, j int) {
 	theDriver.Call(func() {
 		setBarHeight(bars[i], jv)
 		setBarHeight(bars[j], iv)
+
+		if p.lastSwapIdxA >= 0 {
+			bars[p.lastSwapIdxA].SetBackgroundBrush(defaultBgBrush)
+		}
+		if p.lastSwapIdxB >= 0 {
+			bars[p.lastSwapIdxB].SetBackgroundBrush(defaultBgBrush)
+		}
+
+		bars[i].SetBackgroundBrush(swapABgBrush)
+		bars[j].SetBackgroundBrush(swapBBgBrush)
+		p.lastSwapIdxA = i
+		p.lastSwapIdxB = j
+	})
+	wait()
+}
+func (p *GUIDelegate) Mark(idx int) {
+	theDriver.Call(func() {
+		if p.lastMarkIdx >= 0 {
+			bars[p.lastMarkIdx].SetBackgroundBrush(defaultBgBrush)
+		}
+		bars[idx].SetBackgroundBrush(markBgBrush)
+		p.lastMarkIdx = idx
 	})
 	wait()
 }
 
 func wait() {
-	<-time.After(1 * time.Millisecond)
+	ms := time.Duration(1000 / numBars)
+	<-time.After(ms * time.Millisecond)
 }

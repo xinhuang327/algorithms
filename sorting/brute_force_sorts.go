@@ -12,6 +12,7 @@ func SelectionSort(input []int, delegate SortDelegate) {
 				min = input[j]
 				minIdx = j
 			}
+			delegate.Mark(j)
 			delegate.InnerStep(input)
 		}
 		delegate.Swap(input, i, minIdx)
