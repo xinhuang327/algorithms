@@ -1,8 +1,10 @@
 package sorting
 
-import "github.com/xinhuang327/algorithms/common"
+import (
+	. "github.com/xinhuang327/algorithms/common"
+)
 
-func SelectionSort(input []int, delegate SortDelegate) {
+func SelectionSort(input []int, delegate Delegate) {
 	count := len(input)
 	for i := 0; i < count-1; i++ {
 		min := input[i]
@@ -16,19 +18,19 @@ func SelectionSort(input []int, delegate SortDelegate) {
 			delegate.InnerStep(input)
 		}
 		delegate.Swap(input, i, minIdx)
-		common.SwapSlice(input, i, minIdx)
+		SwapElement(input, i, minIdx)
 
 		delegate.Step(input)
 	}
 }
 
-func BubbleSort(input []int, delegate SortDelegate) {
+func BubbleSort(input []int, delegate Delegate) {
 	count := len(input)
 	for i := 0; i < count-1; i++ {
 		for j := 0; j < count-i-1; j++ {
 			if input[j] > input[j+1] {
 				delegate.Swap(input, j, j+1)
-				common.SwapSlice(input, j, j+1)
+				SwapElement(input, j, j+1)
 			}
 			delegate.InnerStep(input)
 		}

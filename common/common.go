@@ -39,11 +39,11 @@ func GenerateRandomNumbers(count int, min int, max int) []int {
 func ReverseSliceRange(slice []int, a, b int) {
 	for i := a; i <= (a+b)/2; i++ {
 		j := b - (i - a)
-		SwapSlice(slice, i, j)
+		SwapElement(slice, i, j)
 	}
 }
 
-func SwapSlice(slice []int, i, j int) {
+func SwapElement(slice []int, i, j int) {
 	if i == j {
 		return
 	}

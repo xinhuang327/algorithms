@@ -16,7 +16,7 @@ var theDriver gxui.Driver
 var theme gxui.Theme
 var winW = 1600
 var winH = 1000
-var numBars = 500
+var numBars = 100
 var valNum = 10000
 
 var defaultBgBrush = gxui.CreateBrush(gxui.White)
@@ -82,7 +82,8 @@ func appMain(driver gxui.Driver) {
 		// sorting.ExecuteSort(sorting.BubbleSort, nums, delegate)
 		// sorting.ExecuteSort(sorting.SelectionSort, nums, delegate)
 		// sorting.ExecuteSort(sorting.ShellSort, nums, delegate)
-		sorting.ExecuteSort(sorting.MergeSort, nums, delegate)
+		// sorting.ExecuteSort(sorting.MergeSort, nums, delegate)
+		sorting.ExecuteSort(sorting.QuickSort, nums, delegate)
 		// fmt.Println(result)
 	}()
 }
@@ -161,6 +162,6 @@ func (p *GUIDelegate) Mark(idx int) {
 }
 
 func wait() {
-	ms := time.Duration(1000 / numBars)
+	ms := time.Duration(5000 / numBars)
 	<-time.After(ms * time.Millisecond)
 }

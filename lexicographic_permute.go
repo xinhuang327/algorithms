@@ -39,7 +39,7 @@ func LexicographicPermute(n int) [][]int {
 	fmt.Println(perm, i, j)
 	for i != -1 {
 		perm = append([]int(nil), perm...)
-		common.SwapSlice(perm, i, j)
+		common.SwapElement(perm, i, j)
 		common.ReverseSliceRange(perm, i+1, n-1)
 		results = append(results, perm)
 		i, j = findIJ(perm)

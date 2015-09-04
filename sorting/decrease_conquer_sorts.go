@@ -1,6 +1,10 @@
 package sorting
 
-func InsertionSort(input []int, delegate SortDelegate) {
+import (
+	. "github.com/xinhuang327/algorithms/common"
+)
+
+func InsertionSort(input []int, delegate Delegate) {
 	count := len(input)
 	for i := 1; i < count; i++ {
 		v := input[i]
@@ -24,7 +28,7 @@ var ShellSortGaps = []int{701, 301, 132, 57, 23, 10, 4, 1}
 
 // var ShellSortGaps = []int{1}
 
-func ShellSort(input []int, delegate SortDelegate) {
+func ShellSort(input []int, delegate Delegate) {
 	count := len(input)
 	for _, gap := range ShellSortGaps {
 		for i := gap; i < count; i++ {

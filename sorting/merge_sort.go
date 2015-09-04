@@ -2,14 +2,16 @@ package sorting
 
 import (
 	"math"
+
+	. "github.com/xinhuang327/algorithms/common"
 )
 
-func MergeSort(slice []int, delegate SortDelegate) {
+func MergeSort(slice []int, delegate Delegate) {
 	mergeSort(slice, delegate, 0)
 }
 
 // l: start index on original slice, only for visualization
-func mergeSort(slice []int, delegate SortDelegate, l int) {
+func mergeSort(slice []int, delegate Delegate, l int) {
 	if len(slice) > 1 {
 		mid := int(math.Floor(float64(len(slice)) / 2.0))
 		a := append([]int{}, slice[0:mid]...)
@@ -17,10 +19,11 @@ func mergeSort(slice []int, delegate SortDelegate, l int) {
 		mergeSort(a, delegate, l)
 		mergeSort(b, delegate, l+mid)
 		merge(a, b, slice, delegate, l)
+		delegate.Step(slice)
 	}
 }
 
-func merge(a, b, dst []int, delegate SortDelegate, l int) {
+func merge(a, b, dst []int, delegate Delegate, l int) {
 	i := 0
 	j := 0
 	k := 0
@@ -35,6 +38,7 @@ func merge(a, b, dst []int, delegate SortDelegate, l int) {
 			j++
 		}
 		k++
+		delegate.InnerStep(dst)
 	}
 	if i == len(a) {
 		copy(dst[k:], b[j:])
@@ -42,6 +46,7 @@ func merge(a, b, dst []int, delegate SortDelegate, l int) {
 			delegate.Set(l+k, b[j])
 			j++
 			k++
+			delegate.InnerStep(dst)
 		}
 	} else {
 		copy(dst[k:], a[i:])
@@ -49,6 +54,7 @@ func merge(a, b, dst []int, delegate SortDelegate, l int) {
 			delegate.Set(l+k, a[i])
 			i++
 			k++
+			delegate.InnerStep(dst)
 		}
 	}
 }

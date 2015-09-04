@@ -7,10 +7,11 @@ import (
 
 func main() {
 	nums := common.GenerateRandomNumbers(1000000, 10, 100000)
-	delegate := &PrintSortDelegate{}
+	delegate := &common.PrintDelegate{}
 	// ExecuteSort(BubbleSort, nums, delegate)
 	// ExecuteSort(SelectionSort, nums, delegate)
 	// ExecuteSort(InsertionSort, nums, delegate)
 	// ExecuteSort(ShellSort, nums, delegate)
+	ExecuteSort(QuickSort, nums, delegate)
 	ExecuteSort(MergeSort, nums, delegate)
 }
